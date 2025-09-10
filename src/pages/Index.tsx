@@ -1,11 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import Dashboard from "@/components/Dashboard";
+import DocumentManager from "@/components/DocumentManager";
+import ConversationMonitor from "@/components/ConversationMonitor";
+import Settings from "@/components/Settings";
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const renderActiveComponent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <Dashboard />;
+      case "documents":
+        return <DocumentManager />;
+      case "conversations":
+        return <ConversationMonitor />;
+      case "settings":
+        return <Settings />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex">
+        <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        <main className="flex-1 p-6 overflow-auto">
+          {renderActiveComponent()}
+        </main>
       </div>
     </div>
   );
